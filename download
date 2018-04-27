@@ -3,6 +3,6 @@
 set -e
 
 cd ~/
-sudo rm -r .dotfiles && git clone git@github.com:jaimerodas/.dotfiles.git
+sudo rm -rf .dotfiles && git clone git@github.com:jaimerodas/.dotfiles.git
 .dotfiles/setup
 
