@@ -1,0 +1,43 @@
+#! /bin/bash
+
+# Install XCode tools
+echo Installing xcode tools...
+xcode-select --install
+echo -----------------
+
+# Install Homebrew
+BREW_INSTALLED=$(command -v brew) 
+if ! [ -x $BREW_INSTALLED ]; then 
+	echo Installing homebrew... 
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	source ~/.bashrc
+else
+	echo Homebrew was already installed, continuing...
+fi
+
+# Install brewy thingies
+echo -----------------
+echo Installing apps...
+brew update
+cd ~/.dotfiles && brew bundle && cd .
+
+# Setup ZSH as default shell
+echo -----------------
+if ! [[ $SHELL = *"zsh"* ]]; then
+	echo Setting up zsh...
+	chsh -s /usr/local/bin/zsh
+else
+	echo zsh is already the default shell
+fi
+
+echo Setting up oh-my-zsh...
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# Install dotfiles
+echo -----------------
+echo Installing dotfiles...
+rm ~/.zshrc
+ln -s ~/.dotfiles/.zshrc ~/.zshrc
+
+rm ~/.vimrc
+ln -s ~/.dotfiles/.vimrc ~/.vimrc
