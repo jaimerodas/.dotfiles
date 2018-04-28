@@ -1,0 +1,17 @@
+cask_args appdir: "/Applications"
+
+tap "caskroom/cask"
+
+cask "microsoft-office"
+cask "telegram"
+cask "whatsapp"
+cask "vlc"
+
+# Games
+cask "nvidia-geforce-now"
+cask "origin"
+cask "steam"
+
+mas "Paprika Recipe Manager 3", id: 1303222628
+mas "Slack", id: 803453959
+

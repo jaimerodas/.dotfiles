@@ -19,7 +19,7 @@ fi
 echo -----------------
 echo Installing apps...
 brew update
-cd ~/.dotfiles && brew bundle && cd .
+cd ~/.dotfiles && brew bundle install --file=./Brewfile && brew bundle dump --global
 
 # Setup ZSH as default shell
 echo -----------------
@@ -41,3 +41,8 @@ ln -s ~/.dotfiles/.zshrc ~/.zshrc
 
 rm ~/.vimrc
 ln -s ~/.dotfiles/.vimrc ~/.vimrc
+
+# Create Code folder
+echo -----------------
+echo Creating Code folder
+mkdir -p ~/Code

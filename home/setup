@@ -1,0 +1,3 @@
+#! /bin/bash
+
+brew bundle install -v --file=~/.dotfiles/home/Brewfile && brew bundle dump --global
