@@ -3,14 +3,19 @@
 set -e
 
 # Install xCode Tools
-echo Installing xcode tools...
+xcode-select -p &> /dev/null
+if [ $? -eq 0 ]; then
+  echo "xcode-tools already installed, skipping..."
+else
+	echo "installing xcode-tools..."
+	xcode-select --install
+fi
 echo ----------------------
-xcode-select --install
 
 # Update software and restart the computer if necessary
 echo Updating system software
-echo ----------------------
 softwareupdate --install --all --restart
+echo ----------------------
 
 cd ~/
 sudo rm -rf .dotfiles && git clone https://github.com/jaimerodas/.dotfiles.git
