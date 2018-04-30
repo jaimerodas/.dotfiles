@@ -41,3 +41,15 @@ ln -s ~/.dotfiles/.vimrc ~/.vimrc
 echo -----------------
 echo Creating Code folder
 mkdir -p ~/Code
+
+# Connect to git through ssh
+cd ~/.dotfiles
+echo -----------------
+echo Fixing .dotfiles git remote...
+git remote remove origin
+git remote add origin git@github.com:jaimerodas/.dotfiles.git
+git fetch origin
+git branch --set-upstream-to=origin/master master
+echo -----------------
+
+cd ~/
