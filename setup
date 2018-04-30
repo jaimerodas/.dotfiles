@@ -31,11 +31,13 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 # Install dotfiles
 echo -----------------
 echo Installing dotfiles...
-rm ~/.zshrc
-ln -s ~/.dotfiles/.zshrc ~/.zshrc
 
-rm ~/.vimrc
-ln -s ~/.dotfiles/.vimrc ~/.vimrc
+for file in ./.*rc ; do
+	name=$(echo $file | sed 's/\.\///')
+	rm -f ~/$name
+	ln -s ~/.dotfiles/$name ~/$name
+done
+
 
 # Create Code folder
 echo -----------------
