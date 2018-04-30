@@ -1,10 +1,5 @@
 #! /bin/bash
 
-# Install XCode tools
-echo Installing xcode tools...
-xcode-select --install
-echo -----------------
-
 # Install Homebrew
 BREW_INSTALLED=$(command -v brew) 
 if ! [ -x $BREW_INSTALLED ]; then 
