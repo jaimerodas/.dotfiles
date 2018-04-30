@@ -12,6 +12,7 @@ brew "tldr"
 brew "mas"
 
 cask "1password-cli"
+cask "aerial"
 cask "atom"
 cask "bartender"
 cask "betterzip"
