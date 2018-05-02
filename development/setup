@@ -1,3 +1,18 @@
-#! /bin/bash
+# /bin/bash
 
+print_separator() {
+	echo -------------------
+}
+
+# Install apps
+print_separator
+echo "Installing apps"
 brew bundle install -v --file=~/.dotfiles/development/Brewfile
+
+# Install scripts
+print_separator
+echo "Installing scripts..."
+for file in ./scripts/* ; do
+	echo "Installing $file"
+	ln -s ~/.dotfiles/development/scripts/$file /usr/local/bin
+done
