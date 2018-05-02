@@ -1,0 +1,12 @@
+cask_args appdir: "/Applications"
+
+brew "awscli"
+brew "mongodb"
+brew "node"
+brew "yarn"
+
+cask "atom"
+cask "firefox"
+cask "mongodb-compass"
+cask "postico"
+cask "postman"

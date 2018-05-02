@@ -20,6 +20,14 @@ echo Installing apps...
 brew update
 cd ~/.dotfiles && brew bundle install --file=./Brewfile && brew bundle dump --global
 
+# Do we need to install development things?
+print_separator
+read -p "Are you going to write code on this machine? (y/n) " install_dev_things
+if [[ "$install_dev_things" = "y" ]]; then
+	echo Running dev setup script...
+	./development/setup
+fi
+
 # Figure out if we're going to install anything else
 print_separator
 read -p "Do you want to install personal computer stuff as well? (y/n) " install_home_things
