@@ -3,20 +3,30 @@
 print_separator() {
 	echo -------------------
 }
+echo_in_bold() {
+	tput bold
+	echo $1
+	tput sgr0
+}
+echo_in_warn() {
+	tput setaf 3
+	echo $1
+	tput sgr0
+}
 
 # Install Homebrew
 BREW_INSTALLED=$(command -v brew) 
 if ! [ -x $BREW_INSTALLED ]; then 
-	echo Installing homebrew... 
+	echo_in_bold "Installing homebrew..." 
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	source ~/.bashrc
 else
-	echo Homebrew was already installed, continuing...
+	echo_in_warn "Homebrew was already installed, continuing..."
 fi
 
 # Install brewy thingies
 print_separator
-echo Installing apps...
+echo_in_bold "Installing apps..."
 brew update
 cd ~/.dotfiles && brew bundle install --file=./Brewfile
 
@@ -24,7 +34,7 @@ cd ~/.dotfiles && brew bundle install --file=./Brewfile
 print_separator
 read -p "Are you going to write code on this machine? (y/n) " install_dev_things
 if [[ "$install_dev_things" = "y" ]]; then
-	echo Running dev setup script...
+	echo_in_bold "Running dev setup script..."
 	./development/setup
 fi
 
@@ -32,26 +42,26 @@ fi
 print_separator
 read -p "Do you want to install personal computer stuff as well? (y/n) " install_home_things
 if [[ "$install_home_things" = "y" ]]; then
-	echo Running home setup script...
+	echo_in_bold "Running home setup script..."
 	./home/setup
 fi
 
 # Setup ZSH as default shell
 print_separator
 if ! [[ $SHELL = *"zsh"* ]]; then
-	echo Setting up zsh...
+	echo_in_bold "Setting up zsh..."
 	chsh -s /usr/local/bin/zsh
 else
-	echo zsh is already the default shell
+	echo_in_warn "zsh is already the default shell"
 fi
 
 print_separator
-echo Setting up oh-my-zsh...
+echo_in_bold "Setting up oh-my-zsh..."
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # Install dotfiles
 print_separator
-echo Installing dotfiles...
+echo_in_bold "Installing dotfiles..."
 
 for file in ./.*rc ; do
 	name=$(echo $file | sed 's/\.\///')
@@ -62,18 +72,18 @@ done
 
 # Create Code folder
 print_separator
-echo Creating Code folder
+echo_in_bold "Creating Code folder"
 mkdir -p ~/Code
 
 # Connect to git through ssh
 cd ~/.dotfiles
 print_separator
-echo Fixing .dotfiles git remote...
+echo_in_bold "Fixing .dotfiles git remote..."
 git remote remove origin
 git remote add origin git@github.com:jaimerodas/.dotfiles.git
 git fetch origin
 git branch --set-upstream-to=origin/master master
 
 print_separator
-echo "All done!"
+echo_in_bold "All done!"
 cd ~/
