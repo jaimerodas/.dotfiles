@@ -18,7 +18,7 @@ fi
 print_separator
 echo Installing apps...
 brew update
-cd ~/.dotfiles && brew bundle install --file=./Brewfile && brew bundle dump --global
+cd ~/.dotfiles && brew bundle install --file=./Brewfile
 
 # Do we need to install development things?
 print_separator
