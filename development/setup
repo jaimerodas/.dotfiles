@@ -12,7 +12,9 @@ brew bundle install -v --file=~/.dotfiles/development/Brewfile
 # Install scripts
 print_separator
 echo "Installing scripts..."
-for file in ./scripts/* ; do
-	echo "Installing $file"
-	ln -s ~/.dotfiles/development/scripts/$file /usr/local/bin
+SCRIPT_DIR=~/.dotfiles/development/scripts/
+for file in "$SCRIPT_DIR*" ; do
+	name=$(basename $file)
+	echo "Installing $name"
+	ln -s $file /usr/local/bin/$name
 done
