@@ -20,6 +20,14 @@ echo Installing apps...
 brew update
 cd ~/.dotfiles && brew bundle install --file=./Brewfile && brew bundle dump --global
 
+# Figure out if we're going to install anything else
+print_separator
+read -p "Do you want to install personal computer stuff as well? (y/n) " install_home_things
+if [[ "$install_home_things" = "y" ]]; then
+	echo Running home setup script...
+	./home/setup
+fi
+
 # Setup ZSH as default shell
 print_separator
 if ! [[ $SHELL = *"zsh"* ]]; then
