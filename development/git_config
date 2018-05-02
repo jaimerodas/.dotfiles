@@ -1,0 +1,10 @@
+#! /bin/bash
+
+set -e
+
+echo "Please enter the desired git configurations"
+read -p "Name: " USERNAME
+read -p "Email: " EMAIL
+
+git config --global user.name $USERNAME
+git config --global user.email $EMAIL

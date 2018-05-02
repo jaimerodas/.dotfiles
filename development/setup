@@ -4,10 +4,20 @@ print_separator() {
 	echo -------------------
 }
 
+cd ~/.dotfiles/development
+
 # Install apps
 print_separator
 echo "Installing apps"
 brew bundle install -v --file=~/.dotfiles/development/Brewfile
+
+# Git global settings
+print_separator
+read -p "Do you wish to setup your git config? (y/n) " SETUP_GIT
+
+if [[ $SETUP_GIT = "y" ]]; then
+	./git_config
+fi
 
 # Install scripts
 print_separator
