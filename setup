@@ -1,5 +1,9 @@
 #! /bin/bash
 
+print_separator() {
+	echo -------------------
+}
+
 # Install Homebrew
 BREW_INSTALLED=$(command -v brew) 
 if ! [ -x $BREW_INSTALLED ]; then 
@@ -11,13 +15,13 @@ else
 fi
 
 # Install brewy thingies
-echo -----------------
+print_separator
 echo Installing apps...
 brew update
 cd ~/.dotfiles && brew bundle install --file=./Brewfile && brew bundle dump --global
 
 # Setup ZSH as default shell
-echo -----------------
+print_separator
 if ! [[ $SHELL = *"zsh"* ]]; then
 	echo Setting up zsh...
 	chsh -s /usr/local/bin/zsh
@@ -25,11 +29,12 @@ else
 	echo zsh is already the default shell
 fi
 
+print_separator
 echo Setting up oh-my-zsh...
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # Install dotfiles
-echo -----------------
+print_separator
 echo Installing dotfiles...
 
 for file in ./.*rc ; do
@@ -40,18 +45,19 @@ done
 
 
 # Create Code folder
-echo -----------------
+print_separator
 echo Creating Code folder
 mkdir -p ~/Code
 
 # Connect to git through ssh
 cd ~/.dotfiles
-echo -----------------
+print_separator
 echo Fixing .dotfiles git remote...
 git remote remove origin
 git remote add origin git@github.com:jaimerodas/.dotfiles.git
 git fetch origin
 git branch --set-upstream-to=origin/master master
-echo -----------------
 
+print_separator
+echo "All done!"
 cd ~/
