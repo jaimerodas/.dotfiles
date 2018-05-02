@@ -25,6 +25,6 @@ echo "Installing scripts..."
 SCRIPT_DIR=~/.dotfiles/development/scripts/
 for file in "$SCRIPT_DIR*" ; do
 	name=$(basename $file)
-	echo "Installing $name"
+	echo "	Installing $name"
 	ln -s $file /usr/local/bin/$name
 done
