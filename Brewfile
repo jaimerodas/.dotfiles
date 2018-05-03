@@ -9,6 +9,7 @@ brew "exa"
 brew "rbenv"
 brew "ruby-build"
 brew "tldr"
+brew "tree"
 brew "mas"
 
 cask "1password-cli"
