@@ -3,8 +3,8 @@
 set -e
 
 # Install xCode Tools
-xcode-select -p &> /dev/null
-if [ $? -eq 0 ]; then
+XCODE_INSTALLED=$(xcode-select -p)
+if [ -x $XCODE_INSTALLED ]; then
 	echo "xcode-tools already installed, skipping..."
 else
 	echo "installing xcode-tools..."
