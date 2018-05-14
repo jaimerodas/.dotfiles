@@ -20,11 +20,4 @@ if [[ $SETUP_GIT = "y" ]]; then
 fi
 
 # Install scripts
-print_separator
-echo "Installing scripts..."
-SCRIPT_DIR=~/.dotfiles/development/user_scripts/
-for file in "$SCRIPT_DIR*" ; do
-	name=$(basename $file)
-	echo "	Installing $name"
-	ln -s $file /usr/local/bin/$name
-done
+./install_user_scripts

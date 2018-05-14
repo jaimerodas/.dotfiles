@@ -1,0 +1,16 @@
+# /bin/bash
+
+print_separator() {
+	echo -------------------
+}
+
+cd ~/.dotfiles/development
+
+echo "Installing scripts..."
+SCRIPT_DIR=~/.dotfiles/development/user_scripts/*
+for file in $SCRIPT_DIR ; do
+	name=$(basename $file)
+	exec_name=${name%.*}
+	echo "	Installing $exec_name"
+	ln -s $file /usr/local/bin/$exec_name
+done
