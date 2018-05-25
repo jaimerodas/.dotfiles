@@ -23,7 +23,7 @@ cask "keybase"
 cask "quicklook-json"
 cask "transmit"
 
-mas "1Password", id: 443987910
+mas "1Password 7", id: 1333542190
 mas "Spark", id: 1176895641
 mas "xScope", id: 889428659
 mas "UlyssesMac", id: 1225570693
