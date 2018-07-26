@@ -3,7 +3,8 @@
 set -e
 
 environment=${1:-jobs}
-environment_name=encontaapp-$environment
+environment="$(tr '[:lower:]' '[:upper:]' <<< ${environment:0:1})${environment:1}"
+environment_name=Enconta-$environment
 
 function list {
 	aws elasticbeanstalk describe-environment-resources --environment-name "$environment_name" |
