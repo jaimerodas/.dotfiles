@@ -2,7 +2,7 @@
 
 set -e
 
-environment=${1:-jobs}
+environment=${1:-production}
 environment="$(tr '[:lower:]' '[:upper:]' <<< ${environment:0:1})${environment:1}"
 environment_name=Enconta-$environment
 

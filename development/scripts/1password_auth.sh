@@ -34,14 +34,13 @@ if [ $(op list users &> /dev/null) ]; then
 fi
 
 read -p "Enter your 1Password Account Key: " SECRET_KEY
-read -s -p "Enter your 1Password Master Password: " MASTER_PASSWORD
 echo ""
 print_separator
 
 echo "Signing into 1Password..."
-eval $(op signin "$SUBDOMAIN.1password.com" "$ACCOUNT_EMAIL" "$SECRET_KEY" "$MASTER_PASSWORD")
+eval $(op signin "$SUBDOMAIN.1password.com" "$ACCOUNT_EMAIL" "$SECRET_KEY")
 
-if ! [ $(op list users) ]; then
+if ! [[ $(op list users) ]]; then
 	fail_with_message "Authentication failed"
 fi
 
