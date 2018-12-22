@@ -9,6 +9,7 @@ brew "mongodb", restart_service: true
 brew "node"
 brew "postgresql"
 brew "yarn"
+brew "bat"
 
 cask "atom"
 cask "firefox"
