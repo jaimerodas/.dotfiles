@@ -14,7 +14,7 @@ echo ----------------------
 
 # Update software and restart the computer if necessary
 echo Updating system software...
-softwareupdate --install --all --restart
+sudo softwareupdate --install --all --restart
 echo ----------------------
 
 echo Installing dotfiles...
