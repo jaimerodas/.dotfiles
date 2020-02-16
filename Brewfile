@@ -1,6 +1,6 @@
 cask_args appdir: "/Applications"
 
-tap "caskroom/cask"
+tap "homebrew/cask-cask"
 
 brew "git"
 brew "jq"
@@ -17,7 +17,6 @@ cask "aerial"
 cask "bartender"
 cask "google-chrome"
 cask "iterm2"
-cask "keybase"
 cask "notion"
 cask "quicklook-json"
 cask "transmit"

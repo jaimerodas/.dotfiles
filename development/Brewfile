@@ -5,15 +5,8 @@ tap "homebrew/services"
 
 brew "awscli"
 brew "imagemagick@6", link: true
-brew "mongodb", restart_service: true
-brew "node"
-brew "postgresql"
-brew "yarn"
 brew "bat"
 
-cask "atom"
 cask "firefox"
-cask "mongodb-compass"
 cask "postico"
-cask "postman"
 cask "wkhtmltopdf"
