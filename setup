@@ -1,89 +1,109 @@
-#! /bin/bash
+#!/bin/bash
+set -e
 
-print_separator() {
-	echo -------------------
-}
-echo_in_bold() {
-	tput bold
-	echo $1
-	tput sgr0
-}
-echo_in_warn() {
-	tput setaf 3
-	echo $1
-	tput sgr0
+DOTFILES="$HOME/.dotfiles"
+
+bold() { tput bold; echo "$1"; tput sgr0; }
+warn() { tput setaf 3; echo "$1"; tput sgr0; }
+sep()  { echo "-------------------"; }
+
+ask() {
+	read -rp "$1 (y/n) " answer
+	[[ "$answer" == "y" ]]
 }
 
-# Install Homebrew
-BREW_INSTALLED=$(command -v brew) 
-if ! [ -x $BREW_INSTALLED ]; then 
-	echo_in_bold "Installing homebrew..." 
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	source ~/.bashrc
+# --- Xcode CLI Tools ---
+if ! xcode-select -p &>/dev/null; then
+	bold "Installing Xcode Command Line Tools..."
+	xcode-select --install
+	echo "Press enter once the installation is complete."
+	read -r
 else
-	echo_in_warn "Homebrew was already installed, continuing..."
+	warn "Xcode CLI tools already installed"
 fi
 
-# Install brewy thingies
-print_separator
-echo_in_bold "Installing apps..."
+# --- Homebrew ---
+sep
+if ! command -v brew &>/dev/null; then
+	bold "Installing Homebrew..."
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+	warn "Homebrew already installed"
+fi
+
+# --- Brew Bundle ---
+sep
+bold "Installing apps via Homebrew..."
 brew update
-cd ~/.dotfiles && brew bundle install --file=./Brewfile
+brew bundle install --file="$DOTFILES/Brewfile"
 
-# Do we need to install development things?
-print_separator
-read -p "Are you going to write code on this machine? (y/n) " install_dev_things
-if [[ "$install_dev_things" = "y" ]]; then
-	echo_in_bold "Running dev setup script..."
-	./development/setup
+# --- Fish Shell ---
+sep
+if ask "Set up Fish shell?"; then
+	bold "Configuring Fish..."
+	FISH_PATH="$(command -v fish)"
+
+	# Add fish to allowed shells if needed
+	if ! grep -qF "$FISH_PATH" /etc/shells; then
+		echo "$FISH_PATH" | sudo tee -a /etc/shells
+	fi
+
+	# Set as default shell
+	if [[ "$SHELL" != *"fish"* ]]; then
+		chsh -s "$FISH_PATH"
+	fi
+
+	# Symlink fish config files
+	mkdir -p "$HOME/.config/fish"
+
+	ln -sf "$DOTFILES/fish/config.fish" "$HOME/.config/fish/config.fish"
+	ln -snf "$DOTFILES/fish/functions" "$HOME/.config/fish/functions"
+
+	bold "Fish configured!"
 fi
 
-# Figure out if we're going to install anything else
-print_separator
-read -p "Do you want to install personal computer stuff as well? (y/n) " install_home_things
-if [[ "$install_home_things" = "y" ]]; then
-	echo_in_bold "Running home setup script..."
-	./home/setup
+# --- Git ---
+sep
+if ask "Set up Git?"; then
+	bold "Configuring Git..."
+	read -rp "Git name: " git_name
+	read -rp "Git email: " git_email
+
+	cp "$DOTFILES/git/gitconfig" "$DOTFILES/git/gitconfig.local"
+	git config --file "$DOTFILES/git/gitconfig.local" user.name "$git_name"
+	git config --file "$DOTFILES/git/gitconfig.local" user.email "$git_email"
+
+	ln -sf "$DOTFILES/git/gitconfig.local" "$HOME/.gitconfig"
+	bold "Git configured!"
 fi
 
-# Setup ZSH as default shell
-print_separator
-if ! [[ $SHELL = *"zsh"* ]]; then
-	echo_in_bold "Setting up zsh..."
-	chsh -s /usr/local/bin/zsh
-else
-	echo_in_warn "zsh is already the default shell"
+# --- Mise ---
+sep
+if ask "Set up mise (Ruby version manager)?"; then
+	bold "Configuring mise..."
+	mkdir -p "$HOME/.config/mise"
+	ln -sf "$DOTFILES/mise/config.toml" "$HOME/.config/mise/config.toml"
+
+	if command -v mise &>/dev/null; then
+		bold "Installing Ruby via mise..."
+		mise install
+	fi
+	bold "Mise configured!"
 fi
 
-print_separator
-echo_in_bold "Setting up oh-my-zsh..."
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# --- SSH via 1Password ---
+sep
+if ask "Set up SSH agent via 1Password?"; then
+	bold "Configuring 1Password SSH agent..."
+	mkdir -p "$HOME/.ssh"
+	cat > "$HOME/.ssh/config" <<-'EOF'
+	Host *
+	    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+	EOF
+	bold "SSH agent configured!"
+fi
 
-# Install dotfiles
-print_separator
-echo_in_bold "Installing dotfiles..."
-
-for file in ./.*rc ; do
-	name=$(echo $file | sed 's/\.\///')
-	rm -f ~/$name
-	ln -s ~/.dotfiles/$name ~/$name
-done
-
-
-# Create Code folder
-print_separator
-echo_in_bold "Creating Code folder"
-mkdir -p ~/Code
-
-# Connect to git through ssh
-cd ~/.dotfiles
-print_separator
-echo_in_bold "Fixing .dotfiles git remote..."
-git remote remove origin
-git remote add origin git@github.com:jaimerodas/.dotfiles.git
-git fetch origin
-git branch --set-upstream-to=origin/master master
-
-print_separator
-echo_in_bold "All done!"
-cd ~/
+# --- Finish ---
+sep
+bold "All done!"
