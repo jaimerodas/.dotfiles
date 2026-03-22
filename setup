@@ -63,6 +63,14 @@ if ask "Set up Fish shell?"; then
 	bold "Fish configured!"
 fi
 
+# --- Ghostty ---
+sep
+bold "Configuring Ghostty..."
+GHOSTTY_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
+mkdir -p "$GHOSTTY_DIR"
+ln -sf "$DOTFILES/ghostty/config.ghostty" "$GHOSTTY_DIR/config.ghostty"
+bold "Ghostty configured!"
+
 # --- Git ---
 sep
 if ask "Set up Git?"; then
