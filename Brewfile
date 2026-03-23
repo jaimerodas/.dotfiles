@@ -1,27 +1,23 @@
 cask_args appdir: "/Applications"
 
-tap "homebrew/cask-cask"
-
+brew "fish"
 brew "git"
 brew "jq"
-brew "zsh"
-brew "exa"
-brew "rbenv"
-brew "ruby-build"
+brew "eza"
+brew "mise"
 brew "tldr"
 brew "tree"
 brew "mas"
 
+cask "1password"
 cask "1password-cli"
-cask "aerial"
-cask "bartender"
-cask "google-chrome"
-cask "iterm2"
-cask "notion"
+cask "chatgpt"
+cask "claude"
+cask "ghostty"
+cask "ice"
+cask "nova"
+cask "orbstack"
 cask "quicklook-json"
-cask "transmit"
 
-mas "1Password 7", id: 1333542190
-mas "xScope", id: 889428659
-mas "Divvy", id: 413857545
-
+mas "WhatsApp Messenger", id: 310633997
+mas "Telegram", id: 747648890

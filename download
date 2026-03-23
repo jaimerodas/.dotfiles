@@ -1,24 +1,24 @@
-#! /bin/bash
-
+#!/bin/bash
 set -e
 
-# Install xCode Tools
-XCODE_INSTALLED=$(xcode-select -p)
-if [ -x $XCODE_INSTALLED ]; then
-	echo "xcode-tools already installed, skipping..."
-else
-	echo "installing xcode-tools..."
+# Install Xcode CLI tools if missing
+if ! xcode-select -p &>/dev/null; then
+	echo "Installing Xcode Command Line Tools..."
 	xcode-select --install
+	echo "Press enter once the installation is complete."
+	read -r
 fi
-echo ----------------------
 
-# Update software and restart the computer if necessary
-echo Updating system software...
-sudo softwareupdate --install --all --restart
-echo ----------------------
+# Install Homebrew if missing
+if ! command -v brew &>/dev/null; then
+	echo "Installing Homebrew..."
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
-echo Installing dotfiles...
-cd ~/
-sudo rm -rf .dotfiles && git clone https://github.com/jaimerodas/.dotfiles.git
-.dotfiles/setup
+# Clone dotfiles
+echo "Cloning dotfiles..."
+git clone https://github.com/jaimerodas/dotfiles.git ~/.dotfiles
 
+# Run setup
+~/.dotfiles/setup
