@@ -17,6 +17,5 @@ cask "ghostty"
 cask "jordabaird-ice"
 cask "nova"
 cask "orbstack"
-
-mas "WhatsApp Messenger", id: 310633997
-mas "Telegram", id: 747648890
+cask "whatsapp"
+cask "telegram"
