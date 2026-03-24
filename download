@@ -18,7 +18,7 @@ fi
 
 # Clone dotfiles
 echo "Cloning dotfiles..."
-git clone https://github.com/jaimerodas/dotfiles.git ~/.dotfiles
+git clone https://github.com/jaimerodas/.dotfiles.git ~/.dotfiles
 
 # Run setup
 ~/.dotfiles/setup
