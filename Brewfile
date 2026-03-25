@@ -8,6 +8,7 @@ brew "mise"
 brew "tldr"
 brew "tree"
 brew "mas"
+brew "libyaml"
 
 cask "1password"
 cask "1password-cli"
