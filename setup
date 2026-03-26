@@ -58,6 +58,10 @@ source "$DOTFILES/setup.d/mise.sh"
 sep
 source "$DOTFILES/setup.d/1password.sh"
 
+# --- macOS ---
+sep
+source "$DOTFILES/setup.d/macos.sh"
+
 # --- Finish ---
 sep
 bold "All done!"
