@@ -40,77 +40,23 @@ brew bundle install --file="$DOTFILES/Brewfile"
 
 # --- Fish Shell ---
 sep
-if ask "Set up Fish shell?"; then
-	bold "Configuring Fish..."
-	FISH_PATH="$(command -v fish)"
-
-	# Add fish to allowed shells if needed
-	if ! grep -qF "$FISH_PATH" /etc/shells; then
-		echo "$FISH_PATH" | sudo tee -a /etc/shells
-	fi
-
-	# Set as default shell
-	if [[ "$SHELL" != *"fish"* ]]; then
-		chsh -s "$FISH_PATH"
-	fi
-
-	# Symlink fish config files
-	mkdir -p "$HOME/.config/fish"
-
-	ln -sf "$DOTFILES/fish/config.fish" "$HOME/.config/fish/config.fish"
-	ln -snf "$DOTFILES/fish/functions" "$HOME/.config/fish/functions"
-
-	bold "Fish configured!"
-fi
+source "$DOTFILES/setup.d/fish.sh"
 
 # --- Ghostty ---
 sep
-bold "Configuring Ghostty..."
-GHOSTTY_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
-mkdir -p "$GHOSTTY_DIR"
-ln -sf "$DOTFILES/ghostty/config.ghostty" "$GHOSTTY_DIR/config.ghostty"
-bold "Ghostty configured!"
+source "$DOTFILES/setup.d/ghostty.sh"
 
 # --- Git ---
 sep
-if ask "Set up Git?"; then
-	bold "Configuring Git..."
-	read -rp "Git name: " git_name
-	read -rp "Git email: " git_email
-
-	cp "$DOTFILES/git/gitconfig" "$DOTFILES/git/gitconfig.local"
-	git config --file "$DOTFILES/git/gitconfig.local" user.name "$git_name"
-	git config --file "$DOTFILES/git/gitconfig.local" user.email "$git_email"
-
-	ln -sf "$DOTFILES/git/gitconfig.local" "$HOME/.gitconfig"
-	bold "Git configured!"
-fi
+source "$DOTFILES/setup.d/git.sh"
 
 # --- Mise ---
 sep
-if ask "Set up mise (Ruby version manager)?"; then
-	bold "Configuring mise..."
-	mkdir -p "$HOME/.config/mise"
-	ln -sf "$DOTFILES/mise/config.toml" "$HOME/.config/mise/config.toml"
-
-	if command -v mise &>/dev/null; then
-		bold "Installing Ruby via mise..."
-		mise install
-	fi
-	bold "Mise configured!"
-fi
+source "$DOTFILES/setup.d/mise.sh"
 
 # --- SSH via 1Password ---
 sep
-if ask "Set up SSH agent via 1Password?"; then
-	bold "Configuring 1Password SSH agent..."
-	mkdir -p "$HOME/.ssh"
-	cat > "$HOME/.ssh/config" <<-'EOF'
-	Host *
-	    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-	EOF
-	bold "SSH agent configured!"
-fi
+source "$DOTFILES/setup.d/1password.sh"
 
 # --- Finish ---
 sep
